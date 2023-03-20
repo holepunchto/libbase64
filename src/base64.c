@@ -1,6 +1,5 @@
 #include <math.h>
 #include <stddef.h>
-#include <stdio.h>
 
 #include "../include/base64.h"
 
