@@ -82,7 +82,7 @@ base64_decode (const char *string, size_t string_len, uint8_t *buffer, size_t *b
     for (size_t j = 0; j < 4; j++) {
       chunk[j] = string[i + j] == '=' ? 0 : base64_inverse_alphabet[string[i + j]];
 
-      if (chunk[j] == -1) return -1;
+      if (chunk[j] == (char) -1) return -1;
     }
 
     uint32_t triple = (chunk[0] << 3 * 6) + (chunk[1] << 2 * 6) + (chunk[2] << 1 * 6) + (chunk[3] << 0 * 6);
