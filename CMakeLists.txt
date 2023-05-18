@@ -40,6 +40,7 @@ set_target_properties(
   base64_static
   PROPERTIES
   OUTPUT_NAME base64
+  PREFIX lib
 )
 
 install(TARGETS base64_shared base64_static)
