@@ -8,4 +8,4 @@ See [`include/base64.h`](include/base64.h) for the public API.
 
 ## License
 
-ISC
+Apache-2.0
