@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.22)
 
 project(base64 C)
 
+if(NOT TARGET utf)
+  add_subdirectory(vendor/libutf EXCLUDE_FROM_ALL)
+endif()
+
 add_library(base64 OBJECT)
 
 set_target_properties(
@@ -23,6 +27,7 @@ target_include_directories(
   base64
   PUBLIC
     include
+    $<TARGET_PROPERTY:utf,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 add_library(base64_shared SHARED $<TARGET_OBJECTS:base64>)

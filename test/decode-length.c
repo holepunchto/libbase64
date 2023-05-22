@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <string.h>
+#include <utf.h>
 
 #include "../include/base64.h"
 
@@ -7,7 +8,7 @@
   { \
     size_t string_len = strlen(string); \
     size_t buffer_len = 0; \
-    int err = base64_decode(string, string_len, NULL, &buffer_len); \
+    int err = base64_decode((utf8_t *) string, string_len, NULL, &buffer_len); \
     assert(err == 0); \
     assert(buffer_len == expected); \
   };

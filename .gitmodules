@@ -1,0 +1,4 @@
+[submodule "vendor/libutf"]
+	path = vendor/libutf
+	url = git@github.com:holepunchto/libutf.git
+	shallow = true
