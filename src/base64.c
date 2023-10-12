@@ -26,21 +26,31 @@ base64_encode (const uint8_t *buffer, size_t buffer_len, utf8_t *string, size_t 
 
   size_t k = 0, i = 0, n = buffer_len;
 
+  uint8_t a, b, c;
+
   for (; i + 2 < n; i += 3) {
-    string[k++] = base64_alphabet[buffer[i] >> 2];
-    string[k++] = base64_alphabet[((buffer[i] & 0x03) << 4) | (buffer[i + 1] >> 4)];
-    string[k++] = base64_alphabet[((buffer[i + 1] & 0x0f) << 2) | (buffer[i + 2] >> 6)];
-    string[k++] = base64_alphabet[buffer[i + 2] & 0x3f];
+    a = buffer[i];
+    b = buffer[i + 1];
+    c = buffer[i + 2];
+
+    string[k++] = base64_alphabet[a >> 2];
+    string[k++] = base64_alphabet[((a & 0x03) << 4) | (b >> 4)];
+    string[k++] = base64_alphabet[((b & 0x0f) << 2) | (c >> 6)];
+    string[k++] = base64_alphabet[c & 0x3f];
   }
 
   if (i < n) {
-    string[k++] = base64_alphabet[buffer[i] >> 2];
+    a = buffer[i];
+
+    string[k++] = base64_alphabet[a >> 2];
 
     if (i + 1 < n) {
-      string[k++] = base64_alphabet[((buffer[i] & 0x03) << 4) | (buffer[i + 1] >> 4)];
-      string[k++] = base64_alphabet[(buffer[i + 1] & 0x0f) << 2];
+      b = buffer[i + 1];
+
+      string[k++] = base64_alphabet[((a & 0x03) << 4) | (b >> 4)];
+      string[k++] = base64_alphabet[(b & 0x0f) << 2];
     } else {
-      string[k++] = base64_alphabet[(buffer[i] & 0x03) << 4];
+      string[k++] = base64_alphabet[(a & 0x03) << 4];
       string[k++] = '=';
     }
 
