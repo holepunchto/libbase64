@@ -15,12 +15,6 @@ foreach(test IN LISTS tests)
       base64_static
   )
 
-  target_include_directories(
-    ${test}
-    PRIVATE
-      $<TARGET_PROPERTY:base64,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-
   add_test(
     NAME ${test}
     COMMAND ${test}

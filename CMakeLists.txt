@@ -30,7 +30,7 @@ target_include_directories(
     $<TARGET_PROPERTY:utf,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
-add_library(base64_shared SHARED $<TARGET_OBJECTS:base64>)
+add_library(base64_shared SHARED)
 
 set_target_properties(
   base64_shared
@@ -39,13 +39,25 @@ set_target_properties(
   WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
 
-add_library(base64_static STATIC $<TARGET_OBJECTS:base64>)
+target_link_libraries(
+  base64_shared
+  PUBLIC
+    base64
+)
+
+add_library(base64_static STATIC)
 
 set_target_properties(
   base64_static
   PROPERTIES
   OUTPUT_NAME base64
   PREFIX lib
+)
+
+target_link_libraries(
+  base64_static
+  PUBLIC
+    base64
 )
 
 install(TARGETS base64_shared base64_static)
