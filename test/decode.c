@@ -17,9 +17,20 @@
 
 int
 main() {
+  test_decode("YQ", "a");
   test_decode("YQ==", "a");
+  test_decode("YWI", "ab");
   test_decode("YWI=", "ab");
   test_decode("YWJj", "abc");
+  test_decode("YWJjZA", "abcd");
   test_decode("YWJjZA==", "abcd");
   test_decode("YWJjZGU=", "abcde");
+
+  // URL unsafe
+  test_decode("+w", "\xfb");
+  test_decode("+w==", "\xfb");
+
+  // URL safe
+  test_decode("-w", "\xfb");
+  test_decode("-w==", "\xfb");
 }
