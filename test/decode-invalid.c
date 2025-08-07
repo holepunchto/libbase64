@@ -15,6 +15,6 @@
 
 int
 main() {
-  test_decode_invalid("abc");
-  test_decode_invalid("abc-");
+  test_decode_invalid("a");
+  test_decode_invalid("abc*");
 }
