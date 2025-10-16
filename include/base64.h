@@ -17,7 +17,11 @@ static const char base64url__alphabet[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi
 static const char base64__inverse_alphabet[256] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, 62, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, 63, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
 static inline int
-base64__encode_utf8(const char *alphabet, const uint8_t *buffer, size_t buffer_len, utf8_t *string, size_t *string_len, bool pad) {
+base64__encode_utf8(const uint8_t *buffer, size_t buffer_len, utf8_t *string, size_t *string_len, bool url_safe) {
+  const char *alphabet = url_safe ? base64url__alphabet : base64__alphabet;
+
+  bool pad = !url_safe;
+
   size_t len = pad ? 4 * ((buffer_len + 2) / 3) : ((buffer_len * 4 + 2) / 3);
 
   if (string == NULL) {
@@ -74,7 +78,11 @@ base64__encode_utf8(const char *alphabet, const uint8_t *buffer, size_t buffer_l
 }
 
 static inline int
-base64__encode_utf16le(const char *alphabet, const uint8_t *buffer, size_t buffer_len, utf16_t *string, size_t *string_len, bool pad) {
+base64__encode_utf16le(const uint8_t *buffer, size_t buffer_len, utf16_t *string, size_t *string_len, bool url_safe) {
+  const char *alphabet = url_safe ? base64url__alphabet : base64__alphabet;
+
+  bool pad = !url_safe;
+
   size_t len = pad ? 4 * ((buffer_len + 2) / 3) : ((buffer_len * 4 + 2) / 3);
 
   if (string == NULL) {
@@ -276,12 +284,12 @@ base64__decode_utf16le(const utf16_t *string, size_t string_len, uint8_t *buffer
 
 inline int
 base64_encode_utf8(const uint8_t *buffer, size_t buffer_len, utf8_t *string, size_t *string_len) {
-  return base64__encode_utf8(base64__alphabet, buffer, buffer_len, string, string_len, true);
+  return base64__encode_utf8(buffer, buffer_len, string, string_len, false /* url_safe */);
 }
 
 inline int
 base64url_encode_utf8(const uint8_t *buffer, size_t buffer_len, utf8_t *string, size_t *string_len) {
-  return base64__encode_utf8(base64url__alphabet, buffer, buffer_len, string, string_len, false);
+  return base64__encode_utf8(buffer, buffer_len, string, string_len, true /* url_safe */);
 }
 
 inline int
@@ -291,12 +299,12 @@ base64_decode_utf8(const utf8_t *string, size_t string_len, uint8_t *buffer, siz
 
 inline int
 base64_encode_utf16le(const uint8_t *buffer, size_t buffer_len, utf16_t *string, size_t *string_len) {
-  return base64__encode_utf16le(base64__alphabet, buffer, buffer_len, string, string_len, true);
+  return base64__encode_utf16le(buffer, buffer_len, string, string_len, false /* url_safe */);
 }
 
 inline int
 base64url_encode_utf16le(const uint8_t *buffer, size_t buffer_len, utf16_t *string, size_t *string_len) {
-  return base64__encode_utf16le(base64url__alphabet, buffer, buffer_len, string, string_len, false);
+  return base64__encode_utf16le(buffer, buffer_len, string, string_len, true /* url_safe */);
 }
 
 inline int
