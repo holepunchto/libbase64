@@ -248,7 +248,9 @@ base64__decode_utf16le(const utf16_t *string, size_t string_len, uint8_t *buffer
     char chunk[4];
 
     for (size_t j = 0; j < 4; j++) {
-      chunk[j] = string[i + j] == '=' ? 0 : base64__inverse_alphabet[string[i + j]];
+      utf16_t c = string[i + j];
+      if (c >= 256) return -1;
+      chunk[j] = c == '=' ? 0 : base64__inverse_alphabet[c];
 
       if (chunk[j] == (char) -1) return -1;
     }
@@ -264,7 +266,9 @@ base64__decode_utf16le(const utf16_t *string, size_t string_len, uint8_t *buffer
     char chunk[4] = {0, 0, 0, 0};
 
     for (size_t j = 0; j < trailing; j++) {
-      chunk[j] = base64__inverse_alphabet[string[i + j]];
+      utf16_t c = string[i + j];
+      if (c >= 256) return -1;
+      chunk[j] = base64__inverse_alphabet[c];
 
       if (chunk[j] == (char) -1) return -1;
     }
