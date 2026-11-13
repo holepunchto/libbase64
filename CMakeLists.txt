@@ -75,5 +75,6 @@ install(FILES include/base64.h DESTINATION include)
 
 if(PROJECT_IS_TOP_LEVEL)
   enable_testing()
+
   add_subdirectory(test)
 endif()
