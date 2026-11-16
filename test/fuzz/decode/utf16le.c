@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../../include/base64.h"
+#include <base64.h>
 
 int
 LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {

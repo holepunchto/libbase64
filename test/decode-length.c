@@ -2,7 +2,7 @@
 #include <string.h>
 #include <utf.h>
 
-#include "../include/base64.h"
+#include <base64.h>
 
 #define test_decode_length(string, expected) \
   { \

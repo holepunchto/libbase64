@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../include/base64.h"
+#include <base64.h>
 
 #define test_encode_length(buffer, expected) \
   { \

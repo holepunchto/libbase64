@@ -6,6 +6,20 @@
 #include <stdint.h>
 #include <utf.h>
 
+#if defined(_WIN32)
+#if defined(BASE64_BUILDING)
+#define BASE64_EXPORT __declspec(dllexport)
+#elif defined(BASE64_SHARED)
+#define BASE64_EXPORT __declspec(dllimport)
+#else
+#define BASE64_EXPORT
+#endif
+#elif defined(__GNUC__)
+#define BASE64_EXPORT __attribute__((visibility("default")))
+#else
+#define BASE64_EXPORT
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -286,32 +300,32 @@ base64__decode_utf16le(const utf16_t *string, size_t string_len, uint8_t *buffer
   return 0;
 }
 
-inline int
+BASE64_EXPORT inline int
 base64_encode_utf8(const uint8_t *buffer, size_t buffer_len, utf8_t *string, size_t *string_len) {
   return base64__encode_utf8(buffer, buffer_len, string, string_len, false /* url_safe */);
 }
 
-inline int
+BASE64_EXPORT inline int
 base64url_encode_utf8(const uint8_t *buffer, size_t buffer_len, utf8_t *string, size_t *string_len) {
   return base64__encode_utf8(buffer, buffer_len, string, string_len, true /* url_safe */);
 }
 
-inline int
+BASE64_EXPORT inline int
 base64_decode_utf8(const utf8_t *string, size_t string_len, uint8_t *buffer, size_t *buffer_len) {
   return base64__decode_utf8(string, string_len, buffer, buffer_len);
 }
 
-inline int
+BASE64_EXPORT inline int
 base64_encode_utf16le(const uint8_t *buffer, size_t buffer_len, utf16_t *string, size_t *string_len) {
   return base64__encode_utf16le(buffer, buffer_len, string, string_len, false /* url_safe */);
 }
 
-inline int
+BASE64_EXPORT inline int
 base64url_encode_utf16le(const uint8_t *buffer, size_t buffer_len, utf16_t *string, size_t *string_len) {
   return base64__encode_utf16le(buffer, buffer_len, string, string_len, true /* url_safe */);
 }
 
-inline int
+BASE64_EXPORT inline int
 base64_decode_utf16le(const utf16_t *string, size_t string_len, uint8_t *buffer, size_t *buffer_len) {
   return base64__decode_utf16le(string, string_len, buffer, buffer_len);
 }
