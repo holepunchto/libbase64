@@ -1,9 +1,3 @@
-if(TARGET base64_shared)
-  set(library base64::shared)
-else()
-  set(library base64::static)
-endif()
-
 add_test_executables(
   decode.c
   decode-invalid.c
@@ -11,7 +5,7 @@ add_test_executables(
   encode.c
   encode-length.c
   LINK
-    ${library}
+    base64::<TYPE>
 )
 
 add_subdirectory(fuzz)
